@@ -2,11 +2,10 @@ import time
 from datetime import datetime
 import random
 from time import sleep
-##
-
 
 
 class Customer:
+
     def __init__(self, name,created,last_updated, account_number, balance,birthday=None):
         self.name = name
         self.created = created
@@ -73,53 +72,47 @@ start_index = 1
 end_index = 10000000
 
 
-def get_account_by_number(customer_list , account_number_to_find):
+def get_account_by_number(customer_dict , account_number_to_find):
+      customer = customer_dict.get(account_number_to_find, None)
+      if customer:
+           return customer
+      else:
+          return None
+     
 
-    for customer in customer_list:
-        if customer.account_number == account_number_to_find:
-
-            return customer
-
-    return None
+   
 
 if __name__ == "__main__":
-    customer_list = []
+    #customer_list = []
     num_customers = 10**7
-    start = time.time()
-    for i in range(1,num_customers+1):
-        account_number=generate_account_number(index=i)
-        customer = Customer(name=f"Customer{i}",
-                            account_number = account_number,
-                            balance=random.randint(1,10000),
-                            created=datetime.now(),
-                            last_updated=datetime.now())
-        customer_list.append(customer)
-    end = time.time()
-    for i in customer_list:
-        print(i)
+    start = time.perf_counter()
+    customers_dict = {f"1111-{i:010}": Customer(name=f"Customer{i}", 
+                                                          account_number=f"1111-{i:010}",
+                                                          balance=random.randint(1,10000),
+                                                          created=datetime.now(),
+                                                          last_updated=datetime.now()) for i in range(1, num_customers+1)}
+    
+  
+    end = time.perf_counter()
+   
+    for key, value in customers_dict.items():
+        print(f"{key}: {value}")
     print(f'Time taken to create { num_customers} customers: {(end - start) * 1000} ms')
 
 
 
-# Sök efter ett specifikt konto
-    start = time.time()
+
+    start = time.perf_counter()
     account_to_find1 = '1111-0000001000'
-    get_account_by_number(customer_list, account_to_find1)
-    end = time.time()
+    get_account_by_number(customers_dict, account_to_find1)
+    end = time.perf_counter()
     print(f'Time taken to find account {account_to_find1}: {(end - start) * 1000} ms')
 
 
-# Sök efter ett annat konto
-    start = time.time()
+
+    start = time.perf_counter()
     account_to_find2 = '1111-0009999999'
-    get_account_by_number(customer_list, account_to_find2)
-    end = time.time()
+    get_account_by_number(customers_dict, account_to_find2)
+    end =time.perf_counter()
     print(f'Time taken to find account {account_to_find2}: {(end - start) * 1000} ms')
 
-
-    # Sök efter ett konto som inte finns
-    start = time.time()
-    account_to_find3 = '1111-9999999999'
-    get_account_by_number(customer_list, account_to_find3)
-    end = time.time()
-    print(f'Account {account_to_find3} not found. Time taken: {(end - start) * 1000} ms')
