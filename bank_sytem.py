@@ -83,7 +83,6 @@ def get_account_by_number(customer_dict , account_number_to_find):
    
 
 if __name__ == "__main__":
-    #customer_list = []
     num_customers = 10**7
     start = time.perf_counter()
     customers_dict = {f"1111-{i:010}": Customer(name=f"Customer{i}", 
@@ -115,4 +114,10 @@ if __name__ == "__main__":
     get_account_by_number(customers_dict, account_to_find2)
     end =time.perf_counter()
     print(f'Time taken to find account {account_to_find2}: {(end - start) * 1000} ms')
+
+    start = time.perf_counter()
+    account_to_find3 = '1111-9999999999'
+    get_account_by_number(customers_dict, account_to_find3)
+    end = time.perf_counter()
+    print(f'Account {account_to_find3} not found. Time taken: {(end - start) * 1000} ms')
 
