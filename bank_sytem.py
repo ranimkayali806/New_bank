@@ -3,8 +3,6 @@ from datetime import datetime
 import random
 from time import sleep
 
-
-
 class Customer:
     def __init__(self, name,created,last_updated, account_number, balance,birthday=None):
         self.name = name
@@ -68,37 +66,47 @@ class Customer:
 def generate_account_numbers(num_accounts):    #randomly
     account_numbers = set()      # för att vi vill inte duppletter använder set()
     while len(account_numbers) < num_accounts:
-        account_number = f'1111-{random.randint(1,10000000 ):010}'
-        account_numbers.add(account_number)
-    return list(account_numbers)
+        new_account = f'1111-{random.randint(1,10000000 ):010}'
+        account_numbers.add(new_account)
+    return list(account_numbers)  # to convert to list
 
-def bubble_sort(account_numbers):
-    n = len(account_numbers)
-    for i in range(n):
-        swapp = False
-        for j in range(0, n-i-1):
-            if  account_numbers [j] >  account_numbers [j+1]:
-                account_numbers [j],  account_numbers [j+1] =  account_numbers [j+1],  account_numbers [j]
-                swapp = True
-        if not swapp:
+
+def get_account_by_number(customer_list , account_number_to_find):
+
+    for customer in customer_list:
+        if customer.account_number == account_number_to_find:
+            print(f'Account {account_number_to_find} found.')
+            break
+        elif customer.account_number > account_number_to_find:
+            print(f'Account {account_number_to_find} not found.')
             break
     
+    else:
+        print(f'Account {account_number_to_find} not found.')
 
+          
 if __name__ == "__main__":
     customer_list = []
     num_customers = 10**7
     start = time.time()
     for i in range(1,num_customers+1):
- 
-        account_number = generate_account_numbers(num_accounts=i)
         customer = Customer(name=f"Customer{i}",
-                            account_number = account_number,
+                            account_number = generate_account_numbers(i)[0],
                             balance=random.randint(1,10000),
                             created=datetime.now(),
                             last_updated=datetime.now())
         customer_list.append(customer)
     end = time.time()
-    for i in customer_list:
-        print(i)
-       
-    print(f'Time taken to create { num_customers} customers: {(end - start) * 1000} ms')
+    for n in customer_list:
+        print(n)
+    print(f'Time taken to create {num_customers} customers: {(end - start) * 1000} ms')
+
+    start = time.time()
+    customer_list.sort(key=lambda customer: customer.account_number,reverse = True)
+    end = time.time()
+    
+    for n in customer_list:
+        print(n.account_number) #print accountnumbers after sortering
+    print (f"Time taken to sort {num_customers} customers is:{(end-start)*1000} ms")
+   
+    
