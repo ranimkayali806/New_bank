@@ -97,8 +97,8 @@ if __name__ == "__main__":
                             last_updated=datetime.now())
         customer_list.append(customer)
     end = time.time()
-    for n in customer_list:
-        print(n)
+    
+    print(*customer_list, sep = "\n")
     print(f'Time taken to create {num_customers} customers: {(end - start) * 1000} ms')
 
     start = time.time()
