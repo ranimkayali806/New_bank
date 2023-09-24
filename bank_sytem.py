@@ -106,7 +106,7 @@ if __name__ == "__main__":
     end = time.time()
     
     for n in customer_list:
-        print(n.account_number) #print accountnumbers after sortering
+        print(n.account_number) #print account numbers after sortering
     print (f"Time taken to sort {num_customers} customers is:{(end-start)*1000} ms")
    
     
